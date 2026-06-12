@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Change Sizing Tool — Versent</title>
+  <style>
+    /* ── Versent Brand Tokens ── */
+    :root {
+      --v-black:    #0D0D0D;
+      --v-dark:     #111418;
+      --v-surface:  #181D24;
+      --v-card:     #1E252F;
+      --v-border:   #2B3441;
+      --v-green:    #2ECC71;
+      --v-green-dk: #27AE60;
+      --v-green-lt: rgba(46,204,113,0.12);
+      --v-amber:    #F39C12;
+      --v-amber-lt: rgba(243,156,18,0.12);
+      --v-red:      #E74C3C;
+      --v-red-lt:   rgba(231,76,60,0.12);
+      --v-blue:     #3498DB;
+      --v-white:    #FFFFFF;
+      --v-text:     #E8ECF0;
+      --v-muted:    #8B96A3;
+      --v-dim:      #556070;
+      --radius:     6px;
+      --radius-lg:  12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--v-dark);
+      color: var(--v-text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--v-black);
+      border-bottom: 1px solid var(--v-border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    /* Versent V-mark SVG reproduced as CSS */
+    .v-mark {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .logo-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--v-white);
+      text-transform: uppercase;
+    }
+
+    .header-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--v-muted);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, #0D1219 0%, #111820 60%, #0A1A12 100%);
+      border-bottom: 1px solid var(--v-border);
+      padding: 4rem 2rem 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(46,204,113,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--v-green);
+      border: 1px solid rgba(46,204,113,0.3);
+      border-radius: 100px;
+      padding: 4px 14px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--v-white);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span { color: var(--v-green); }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--v-muted);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--v-green);
+      line-height: 1;
+    }
+
+    .hero-stat span {
+      font-size: 0.78rem;
+      color: var(--v-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Progress Bar ── */
+    .progress-wrap {
+      background: var(--v-surface);
+      border-bottom: 1px solid var(--v-border);
+      padding: 1rem 2rem;
+    }
+
+    .progress-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 4px;
+      background: var(--v-border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--v-green);
+      border-radius: 100px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--v-muted);
+      white-space: nowrap;
+    }
+
+    /* ── Main Layout ── */
+    main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+    }
+
+    /* ── Sections ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-num {
+      width: 28px;
+      height: 28px;
+      background: var(--v-green-lt);
+      border: 1px solid rgba(46,204,113,0.3);
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--v-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--v-white);
+      letter-spacing: 0.02em;
+    }
+
+    .section-header p {
+      font-size: 0.8rem;
+      color: var(--v-muted);
+    }
+
+    /* ── Question Cards ── */
+    .question-block {
+      background: var(--v-card);
+      border: 1px solid var(--v-border);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .question-block:focus-within {
+      border-color: rgba(46,204,113,0.4);
+    }
+
+    .question-block label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--v-text);
+      margin-bottom: 0.9rem;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 8px;
+    }
+
+    .opt-btn {
+      background: var(--v-surface);
+      border: 1px solid var(--v-border);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      color: var(--v-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .opt-btn:hover {
+      border-color: rgba(46,204,113,0.35);
+      color: var(--v-text);
+    }
+
+    .opt-btn.selected {
+      background: var(--v-green-lt);
+      border-color: var(--v-green);
+      color: var(--v-white);
+      font-weight: 500;
+    }
+
+    .opt-score {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--v-dim);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    .opt-btn.selected .opt-score { color: rgba(46,204,113,0.7); }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--v-border);
+      margin: 2.5rem 0;
+    }
+
+    /* ── CTA Button ── */
+    .cta-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 2.5rem;
+    }
+
+    .btn-calculate {
+      background: var(--v-green);
+      color: #0a1a0e;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 36px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      text-transform: uppercase;
+    }
+
+    .btn-calculate:hover:not(:disabled) {
+      background: #34d979;
+      transform: translateY(-1px);
+    }
+
+    .btn-calculate:disabled {
+      background: var(--v-border);
+      color: var(--v-dim);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .incomplete-hint {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--v-dim);
+      margin-top: 0.75rem;
+    }
+
+    /* ── Results Panel ── */
+    #results {
+      display: none;
+      margin-top: 3rem;
+      border-top: 1px solid var(--v-border);
+      padding-top: 3rem;
+    }
+
+    .results-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--v-white);
+      margin-bottom: 0.3rem;
+    }
+
+    .results-sub {
+      font-size: 0.9rem;
+      color: var(--v-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* Score Dial */
+    .score-card {
+      background: var(--v-card);
+      border: 1px solid var(--v-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .dial-wrap {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+    }
+
+    .dial-wrap svg { transform: rotate(-90deg); }
+
+    .dial-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dial-score {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--v-white);
+    }
+
+    .dial-label {
+      font-size: 0.65rem;
+      color: var(--v-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .score-info { flex: 1; min-width: 200px; }
+
+    .score-band {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      padding: 3px 12px;
+      margin-bottom: 0.6rem;
+    }
+
+    .score-band.low    { background: rgba(46,204,113,0.15); color: var(--v-green); border: 1px solid rgba(46,204,113,0.3); }
+    .score-band.medium { background: rgba(243,156,18,0.15); color: var(--v-amber); border: 1px solid rgba(243,156,18,0.3); }
+    .score-band.high   { background: rgba(231,76,60,0.15);  color: var(--v-red);   border: 1px solid rgba(231,76,60,0.3); }
+
+    .score-desc {
+      font-size: 0.88rem;
+      color: var(--v-muted);
+      line-height: 1.5;
+    }
+
+    /* Dimension Bars */
+    .dim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 540px) { .dim-grid { grid-template-columns: 1fr; } }
+
+    .dim-card {
+      background: var(--v-card);
+      border: 1px solid var(--v-border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.2rem;
+    }
+
+    .dim-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--v-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .dim-bar-wrap {
+      height: 6px;
+      background: var(--v-border);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 0.4rem;
+    }
+
+    .dim-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 0.8s ease;
+    }
+
+    .dim-value {
+      font-size: 0.78rem;
+      color: var(--v-muted);
+    }
+
+    /* Recommendation */
+    .rec-card {
+      background: var(--v-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .rec-header {
+      background: linear-gradient(90deg, #0e2318, #112a1a);
+      border-bottom: 1px solid rgba(46,204,113,0.2);
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rec-header-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--v-green-lt);
+      border: 1px solid rgba(46,204,113,0.3);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .rec-header-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--v-white);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .rec-header-sub {
+      font-size: 0.75rem;
+      color: rgba(46,204,113,0.7);
+    }
+
+    .rec-body {
+      border: 1px solid var(--v-border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      padding: 1.4rem;
+    }
+
+    .rec-package {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--v-white);
+      margin-bottom: 0.4rem;
+    }
+
+    .rec-desc {
+      font-size: 0.87rem;
+      color: var(--v-muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.55;
+    }
+
+    .rec-includes {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--v-dim);
+      margin-bottom: 0.7rem;
+    }
+
+    .rec-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    @media (max-width: 480px) { .rec-list { grid-template-columns: 1fr; } }
+
+    .rec-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--v-text);
+    }
+
+    .rec-list li::before {
+      content: '✓';
+      color: var(--v-green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Budget & Timeline */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 560px) { .kpi-row { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 360px) { .kpi-row { grid-template-columns: 1fr; } }
+
+    .kpi-card {
+      background: var(--v-card);
+      border: 1px solid var(--v-border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.2rem;
+    }
+
+    .kpi-icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--v-white);
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+
+    .kpi-lbl {
+      font-size: 0.72rem;
+      color: var(--v-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Risk Flags */
+    .flags-section { margin-bottom: 1.5rem; }
+
+    .flags-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--v-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .flag-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--v-card);
+      border: 1px solid var(--v-border);
+      border-left: 3px solid var(--v-amber);
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      margin-bottom: 8px;
+      font-size: 0.83rem;
+      color: var(--v-text);
+      line-height: 1.45;
+    }
+
+    .flag-item.critical { border-left-color: var(--v-red); }
+
+    .flag-icon { flex-shrink: 0; font-size: 1rem; }
+
+    /* Reset button */
+    .btn-reset {
+      background: transparent;
+      border: 1px solid var(--v-border);
+      color: var(--v-muted);
+      border-radius: var(--radius);
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: block;
+      margin: 2rem auto 0;
+    }
+
+    .btn-reset:hover {
+      border-color: var(--v-dim);
+      color: var(--v-text);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--v-black);
+      border-top: 1px solid var(--v-border);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-text {
+      font-size: 0.78rem;
+      color: var(--v-dim);
+    }
+
+    .footer-text a {
+      color: var(--v-green);
+      text-decoration: none;
+    }
+
+    /* Utility */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <a class="logo" href="https://versent.com.au" target="_blank" rel="noopener">
+    <svg class="v-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="12" fill="#111418"/>
+      <polygon points="50,20 80,78 65,78 50,48 35,78 20,78" fill="#2ECC71"/>
+    </svg>
+    <span class="logo-name">Versent</span>
+  </a>
+  <span class="header-tag">Business Strategy – OCM</span>
+</header>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="hero-eyebrow">Business Strategy – OCM</div>
+  <h1>Size the change.<br><span>Before you scope the work.</span></h1>
+  <p>Answer 12 questions about your program and get an instant complexity score, risk profile, and recommended change investment level.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>2 in 3</strong><span>Change initiatives fail or underperform</span></div>
+    <div class="hero-stat"><strong>$17M</strong><span>Average cost of inadequate adoption assurance</span></div>
+    <div class="hero-stat"><strong>6×</strong><span>More likely to succeed with strong OCM</span></div>
+  </div>
+</div>
+
+<!-- ── Progress ── -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">0 of 12 answered</span>
+  </div>
+</div>
+
+<!-- ── Main ── -->
+<main>
+
+  <!-- Section 1: Scale -->
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <h2>Scale &amp; Reach</h2>
+      <p>Who and how many are affected?</p>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How many people are directly impacted by this change?</label>
+    <div class="options-grid" data-q="q1">
+      <button class="opt-btn" data-score="1">Under 50<span class="opt-score">Low volume</span></button>
+      <button class="opt-btn" data-score="2">50 – 250<span class="opt-score">Moderate</span></button>
+      <button class="opt-btn" data-score="3">250 – 1,000<span class="opt-score">Significant</span></button>
+      <button class="opt-btn" data-score="4">1,000+<span class="opt-score">Enterprise-wide</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How many locations or geographies are involved?</label>
+    <div class="options-grid" data-q="q2">
+      <button class="opt-btn" data-score="1">Single site<span class="opt-score">One location</span></button>
+      <button class="opt-btn" data-score="2">Multiple sites, same region<span class="opt-score">State-level</span></button>
+      <button class="opt-btn" data-score="3">Multi-state or national<span class="opt-score">AU-wide</span></button>
+      <button class="opt-btn" data-score="4">International<span class="opt-score">Cross-border</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How many distinct role types or personas are affected?</label>
+    <div class="options-grid" data-q="q3">
+      <button class="opt-btn" data-score="1">1 – 2 roles<span class="opt-score">Narrow</span></button>
+      <button class="opt-btn" data-score="2">3 – 5 roles<span class="opt-score">Moderate breadth</span></button>
+      <button class="opt-btn" data-score="3">6 – 10 roles<span class="opt-score">Wide reach</span></button>
+      <button class="opt-btn" data-score="4">10+ roles<span class="opt-score">Cross-function</span></button>
+    </div>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <!-- Section 2: Nature of Change -->
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <h2>Nature of Change</h2>
+      <p>What is actually changing, and how much?</p>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>What best describes the type of change?</label>
+    <div class="options-grid" data-q="q4">
+      <button class="opt-btn" data-score="1">Process improvement<span class="opt-score">Incremental</span></button>
+      <button class="opt-btn" data-score="2">New system / technology<span class="opt-score">Tool-led</span></button>
+      <button class="opt-btn" data-score="3">Restructure or re-org<span class="opt-score">People-led</span></button>
+      <button class="opt-btn" data-score="4">Business transformation<span class="opt-score">Operating model</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How significantly are day-to-day working practices changing?</label>
+    <div class="options-grid" data-q="q5">
+      <button class="opt-btn" data-score="1">Minimal — tweaks only<span class="opt-score">Low disruption</span></button>
+      <button class="opt-btn" data-score="2">Moderate — new steps added<span class="opt-score">Some retraining</span></button>
+      <button class="opt-btn" data-score="3">Significant — new ways of working<span class="opt-score">Behaviour shift</span></button>
+      <button class="opt-btn" data-score="4">Fundamental — roles redefined<span class="opt-score">Transformational</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How compressed is the timeline for delivery?</label>
+    <div class="options-grid" data-q="q6">
+      <button class="opt-btn" data-score="1">12+ months<span class="opt-score">Ample runway</span></button>
+      <button class="opt-btn" data-score="2">6 – 12 months<span class="opt-score">Manageable</span></button>
+      <button class="opt-btn" data-score="3">3 – 6 months<span class="opt-score">Tight</span></button>
+      <button class="opt-btn" data-score="4">Under 3 months<span class="opt-score">High-pressure</span></button>
+    </div>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <!-- Section 3: Readiness -->
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <h2>Organisational Readiness</h2>
+      <p>How prepared is the business to absorb this change?</p>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>What is the current level of leadership sponsorship?</label>
+    <div class="options-grid" data-q="q7">
+      <button class="opt-btn" data-score="1">Strong — exec visibly committed<span class="opt-score">Active sponsor</span></button>
+      <button class="opt-btn" data-score="2">Moderate — aligned but passive<span class="opt-score">Nominal support</span></button>
+      <button class="opt-btn" data-score="3">Weak — limited engagement<span class="opt-score">Competing priorities</span></button>
+      <button class="opt-btn" data-score="4">Absent — no clear sponsor<span class="opt-score">Critical risk</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How much change saturation exists in this organisation?</label>
+    <div class="options-grid" data-q="q8">
+      <button class="opt-btn" data-score="1">Low — few active programs<span class="opt-score">Fresh capacity</span></button>
+      <button class="opt-btn" data-score="2">Moderate — 1-2 other programs<span class="opt-score">Some fatigue</span></button>
+      <button class="opt-btn" data-score="3">High — multiple concurrent programs<span class="opt-score">Fatigue risk</span></button>
+      <button class="opt-btn" data-score="4">Critical — change exhaustion evident<span class="opt-score">High resistance</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>What is the history of change success in this organisation?</label>
+    <div class="options-grid" data-q="q9">
+      <button class="opt-btn" data-score="1">Strong — previous programs landed well<span class="opt-score">Change-ready</span></button>
+      <button class="opt-btn" data-score="2">Mixed — some wins, some failures<span class="opt-score">Cautious</span></button>
+      <button class="opt-btn" data-score="3">Poor — recent programs struggled<span class="opt-score">Low trust</span></button>
+      <button class="opt-btn" data-score="4">Very poor — significant trauma<span class="opt-score">High resistance</span></button>
+    </div>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <!-- Section 4: Capability -->
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div>
+      <h2>Internal Capability</h2>
+      <p>Does the organisation have the skills to support change?</p>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>Does the organisation have an internal change management capability?</label>
+    <div class="options-grid" data-q="q10">
+      <button class="opt-btn" data-score="1">Yes — dedicated team in place<span class="opt-score">Self-sufficient</span></button>
+      <button class="opt-btn" data-score="2">Partial — someone owns it, part-time<span class="opt-score">Limited capacity</span></button>
+      <button class="opt-btn" data-score="3">Minimal — change is ad hoc<span class="opt-score">No framework</span></button>
+      <button class="opt-btn" data-score="4">None — no internal capability<span class="opt-score">Fully dependent</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How complex is the stakeholder landscape?</label>
+    <div class="options-grid" data-q="q11">
+      <button class="opt-btn" data-score="1">Simple — few, aligned stakeholders<span class="opt-score">Low complexity</span></button>
+      <button class="opt-btn" data-score="2">Moderate — some competing interests<span class="opt-score">Manageable</span></button>
+      <button class="opt-btn" data-score="3">Complex — multiple exec sponsors<span class="opt-score">Political tension</span></button>
+      <button class="opt-btn" data-score="4">Very complex — union or regulatory layer<span class="opt-score">External oversight</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>What level of training is required?</label>
+    <div class="options-grid" data-q="q12">
+      <button class="opt-btn" data-score="1">Minimal — awareness only<span class="opt-score">Comms-led</span></button>
+      <button class="opt-btn" data-score="2">Moderate — eLearning or guides<span class="opt-score">Self-directed</span></button>
+      <button class="opt-btn" data-score="3">Significant — instructor-led sessions<span class="opt-score">Facilitated</span></button>
+      <button class="opt-btn" data-score="4">Extensive — multi-persona training<span class="opt-score">Full program</span></button>
+    </div>
+  </div>
+
+  <!-- ── Calculate Button ── -->
+  <div class="cta-row">
+    <button class="btn-calculate" id="calcBtn" disabled onclick="calculate()">Calculate Change Complexity</button>
+  </div>
+  <p class="incomplete-hint" id="incompleteHint">Complete all 12 questions to see your results</p>
+
+  <!-- ── Results ── -->
+  <div id="results">
+
+    <div class="results-title">Your Change Complexity Report</div>
+    <div class="results-sub" id="resultsSub"></div>
+
+    <!-- Score dial -->
+    <div class="score-card">
+      <div class="dial-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#2B3441" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" id="dialArc"
+                  stroke="#2ECC71" stroke-width="8"
+                  stroke-dasharray="314 314"
+                  stroke-dashoffset="314"
+                  stroke-linecap="round"/>
+        </svg>
+        <div class="dial-center">
+          <div class="dial-score" id="dialScore">0</div>
+          <div class="dial-label">/ 48</div>
+        </div>
+      </div>
+      <div class="score-info">
+        <div class="score-band" id="scoreBand">–</div>
+        <div style="font-size:1.05rem; font-weight:700; color:var(--v-white); margin-bottom:0.4rem;" id="scoreName"></div>
+        <div class="score-desc" id="scoreDesc"></div>
+      </div>
+    </div>
+
+    <!-- Dimension breakdown -->
+    <div class="dim-grid" id="dimGrid"></div>
+
+    <!-- KPIs -->
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <!-- Recommendation -->
+    <div class="rec-card" id="recCard"></div>
+
+    <!-- Risk Flags -->
+    <div class="flags-section" id="flagsSection"></div>
+
+    <!-- Reset -->
+    <button class="btn-reset" onclick="resetTool()">↺ Start Again</button>
+
+  </div><!-- /results -->
+
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+      <rect width="100" height="100" rx="8" fill="#111418"/>
+      <polygon points="50,18 78,78 63,78 50,46 37,78 22,78" fill="#2ECC71"/>
+    </svg>
+    <span style="font-size:0.85rem; font-weight:700; letter-spacing:0.08em; color:var(--v-white); text-transform:uppercase;">Versent</span>
+  </div>
+  <div class="footer-text">
+    Business Strategy – OCM · <a href="https://versent.com.au" target="_blank">versent.com.au</a>
+  </div>
+</footer>
+
+<script>
+  let answers = {};
+  let answered = 0;
+
+  // ── Option selection ──
+  document.querySelectorAll('.options-grid').forEach(grid => {
+    const q = grid.dataset.q;
+    grid.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const wasAnswered = answers[q] !== undefined;
+        grid.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        answers[q] = parseInt(btn.dataset.score);
+        if (!wasAnswered) answered++;
+        updateProgress();
+      });
+    });
+  });
+
+  function updateProgress() {
+    const total = 12;
+    const pct = (answered / total) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = answered + ' of ' + total + ' answered';
+    const calcBtn = document.getElementById('calcBtn');
+    const hint    = document.getElementById('incompleteHint');
+    if (answered === total) {
+      calcBtn.disabled = false;
+      hint.textContent = 'All questions answered — ready to calculate';
+    } else {
+      calcBtn.disabled = true;
+      hint.textContent = (total - answered) + ' question' + (total - answered !== 1 ? 's' : '') + ' remaining';
+    }
+  }
+
+  function calculate() {
+    const total = Object.values(answers).reduce((a, b) => a + b, 0);
+
+    // Dimension scores (questions map to dimensions)
+    const dims = {
+      'Scale & Reach':      answers.q1 + answers.q2 + answers.q3,
+      'Nature of Change':   answers.q4 + answers.q5 + answers.q6,
+      'Org Readiness':      answers.q7 + answers.q8 + answers.q9,
+      'Internal Capability':answers.q10 + answers.q11 + answers.q12,
+    };
+    const maxDim = 12;
+
+    // Band
+    let band, bandClass, name, desc, pkg, pkgDesc, includes, budgetLow, budgetHigh, weeks, fte;
+    if (total <= 18) {
+      band = 'Low Complexity'; bandClass = 'low'; name = 'Advisory Engagement';
+      desc = 'This program has manageable change complexity. A light-touch advisory approach — structured planning, targeted stakeholder engagement, and a comms framework — will be sufficient to land the change effectively.';
+      pkg  = 'CM Advisory Package';
+      pkgDesc = 'Structured guidance, change impact assessment, a stakeholder map, and a communications plan. Designed for programs with focused scope and a capable internal team.';
+      includes = ['Change Impact Assessment','Stakeholder Mapping','Communications Plan','Manager Briefing Kit','Go-live Readiness Check','Adoption Scorecard'];
+      budgetLow = '40K'; budgetHigh = '80K'; weeks = '8–12 weeks'; fte = '0.5 FTE';
+    } else if (total <= 30) {
+      band = 'Medium Complexity'; bandClass = 'medium'; name = 'Packaged Delivery';
+      desc = 'This program has moderate-to-significant change complexity. A structured, packaged delivery approach is recommended — covering the full change lifecycle with dedicated Versent resources embedded alongside your team.';
+      pkg  = 'CM Packaged Delivery';
+      pkgDesc = 'End-to-end change management delivered by a dedicated Versent senior change lead. Includes persona-based design, training design, stakeholder engagement, and a structured adoption program.';
+      includes = ['Persona-Based Change Design','Full Stakeholder Engagement','Training Needs Analysis','Training Design & Development','Go-live Readiness Assessment','Hypercare Support','Project Story Pack','Change Champion Network'];
+      budgetLow = '120K'; budgetHigh = '220K'; weeks = '12–20 weeks'; fte = '1.0 FTE';
+    } else {
+      band = 'High Complexity'; bandClass = 'high'; name = 'Design & Delivery';
+      desc = 'This program carries high change complexity. A full Design & Delivery engagement is required — with a Versent change team embedded from strategy through to sustained adoption. Senior expertise and dedicated resource are non-negotiable.';
+      pkg  = 'CM Design & Delivery';
+      pkgDesc = 'Versent's most comprehensive change offering — a senior-led team working across strategy, design, delivery, and adoption. Built for enterprise transformation programs where change is the critical path.';
+      includes = ['Change Strategy & Program Story','Executive Sponsorship Coaching','Persona-Based Design (full suite)','Multi-modal Training Program','Change Champion Network','Communications Design & Delivery','Readiness & Adoption Measurement','Hypercare + Post-go-live Adoption'];
+      budgetLow = '280K'; budgetHigh = '600K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE';
+    }
+
+    // Animate score
+    const dialScore = document.getElementById('dialScore');
+    const dialArc   = document.getElementById('dialArc');
+    const circumference = 314;
+    const pct = total / 48;
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + 1, total);
+      dialScore.textContent = current;
+      const offset = circumference - (circumference * (current / 48));
+      dialArc.style.strokeDashoffset = offset;
+      if (current >= total) clearInterval(timer);
+    }, 35);
+
+    // Band colour on arc
+    const arcColors = { low: '#2ECC71', medium: '#F39C12', high: '#E74C3C' };
+    dialArc.style.stroke = arcColors[bandClass];
+
+    document.getElementById('scoreBand').textContent  = band;
+    document.getElementById('scoreBand').className    = 'score-band ' + bandClass;
+    document.getElementById('scoreName').textContent  = name;
+    document.getElementById('scoreDesc').textContent  = desc;
+    document.getElementById('resultsSub').textContent = 'Program score: ' + total + '/48 · Generated ' + new Date().toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'});
+
+    // Dimension bars
+    const dimColors = { low: '#2ECC71', medium: '#F39C12', high: '#E74C3C' };
+    const dimGrid = document.getElementById('dimGrid');
+    dimGrid.innerHTML = Object.entries(dims).map(([label, score]) => {
+      const pctD = (score / maxDim) * 100;
+      const c = score <= 5 ? '#2ECC71' : score <= 8 ? '#F39C12' : '#E74C3C';
+      const level = score <= 5 ? 'Low' : score <= 8 ? 'Medium' : 'High';
+      return `<div class="dim-card">
+        <div class="dim-label">${label}</div>
+        <div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:${pctD}%;background:${c};"></div></div>
+        <div class="dim-value">${score} / 12 — <span style="color:${c}">${level}</span></div>
+      </div>`;
+    }).join('');
+
+    // KPIs
+    document.getElementById('kpiRow').innerHTML = `
+      <div class="kpi-card"><div class="kpi-icon">💰</div><div class="kpi-val">$${budgetLow} – $${budgetHigh}</div><div class="kpi-lbl">Indicative Investment</div></div>
+      <div class="kpi-card"><div class="kpi-icon">📅</div><div class="kpi-val">${weeks}</div><div class="kpi-lbl">Typical Duration</div></div>
+      <div class="kpi-card"><div class="kpi-icon">👤</div><div class="kpi-val">${fte}</div><div class="kpi-lbl">Change Resource</div></div>
+    `;
+
+    // Recommendation
+    document.getElementById('recCard').innerHTML = `
+      <div class="rec-header">
+        <div class="rec-header-icon">✦</div>
+        <div>
+          <div class="rec-header-title">Recommended Approach</div>
+          <div class="rec-header-sub">Based on your complexity profile</div>
+        </div>
+      </div>
+      <div class="rec-body">
+        <div class="rec-package">${pkg}</div>
+        <div class="rec-desc">${pkgDesc}</div>
+        <div class="rec-includes">Includes</div>
+        <ul class="rec-list">${includes.map(i => `<li>${i}</li>`).join('')}</ul>
+      </div>
+    `;
+
+    // Risk flags
+    const flags = [];
+    if (answers.q7 >= 3) flags.push({ critical: true,  text: 'Leadership sponsorship is weak or absent. This is the #1 predictor of change failure — escalate immediately and secure an active, visible executive sponsor before proceeding.' });
+    if (answers.q8 >= 3) flags.push({ critical: false, text: 'High change saturation detected. Sequence this program carefully against other active initiatives. Consider a change calendar to manage competing demands on affected people.' });
+    if (answers.q9 >= 3) flags.push({ critical: false, text: 'Poor track record with previous change programs. Expect elevated resistance. Invest early in trust-building activities and transparent communication about what's different this time.' });
+    if (answers.q10 >= 3) flags.push({ critical: false, text: 'No internal change capability. The organisation is fully dependent on external support — factor in knowledge transfer and internal uplift as a program outcome, not an afterthought.' });
+    if (answers.q6 >= 3 && total >= 25) flags.push({ critical: true, text: 'Compressed timeline combined with medium-to-high complexity creates significant delivery risk. Consider phasing the rollout or increasing change resource to protect the schedule.' });
+
+    const flagsSec = document.getElementById('flagsSection');
+    if (flags.length > 0) {
+      flagsSec.innerHTML = `<div class="flags-title">⚠ Risk Flags</div>` +
+        flags.map(f => `<div class="flag-item ${f.critical ? 'critical' : ''}"><span class="flag-icon">${f.critical ? '🔴' : '🟡'}</span><span>${f.text}</span></div>`).join('');
+    } else {
+      flagsSec.innerHTML = `<div class="flag-item" style="border-left-color:var(--v-green)"><span class="flag-icon">🟢</span><span>No critical risk flags identified. This program has a solid foundation for successful change delivery.</span></div>`;
+    }
+
+    // Show results
+    const resultsEl = document.getElementById('results');
+    resultsEl.style.display = 'block';
+    setTimeout(() => resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  }
+
+  function resetTool() {
+    answers = {};
+    answered = 0;
+    document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('calcBtn').disabled = true;
+    document.getElementById('incompleteHint').textContent = 'Complete all 12 questions to see your results';
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
