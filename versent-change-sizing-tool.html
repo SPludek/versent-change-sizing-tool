@@ -960,17 +960,18 @@
   let answers = {};
   let answered = 0;
 
-  // ── Option selection ──
-  document.querySelectorAll('.options-grid').forEach(grid => {
-    const q = grid.dataset.q;
-    grid.querySelectorAll('.opt-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const wasAnswered = answers[q] !== undefined;
-        grid.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        answers[q] = parseInt(btn.dataset.score);
-        if (!wasAnswered) answered++;
-        updateProgress();
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.options-grid').forEach(grid => {
+      const q = grid.dataset.q;
+      grid.querySelectorAll('.opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const wasAnswered = answers[q] !== undefined;
+          grid.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          answers[q] = parseInt(btn.dataset.score);
+          if (!wasAnswered) answered++;
+          updateProgress();
+        });
       });
     });
   });
