@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Change Sizing Tool — Versent</title>
+<style>
+:root{--vk:#0D0D0D;--vd:#111418;--vs:#181D24;--vc:#1E252F;--vb:#2B3441;--vg:#2ECC71;--vgl:rgba(46,204,113,0.12);--va:#F39C12;--vr:#E74C3C;--vw:#FFFFFF;--vt:#E8ECF0;--vm:#8B96A3;--vi:#556070;--rad:6px;--radl:12px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--vd);color:var(--vt);min-height:100vh;line-height:1.6}
+header{background:var(--vk);border-bottom:1px solid var(--vb);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-name{font-size:1.1rem;font-weight:700;letter-spacing:0.08em;color:var(--vw);text-transform:uppercase}
+.header-tag{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--vm)}
+.hero{background:linear-gradient(160deg,#0D1219 0%,#111820 60%,#0A1A12 100%);border-bottom:1px solid var(--vb);padding:4rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(46,204,113,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-block;font-size:0.7rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--vg);border:1px solid rgba(46,204,113,0.3);border-radius:100px;padding:4px 14px;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem);font-weight:700;letter-spacing:-0.02em;color:var(--vw);line-height:1.15;margin-bottom:1rem}
+.hero h1 span{color:var(--vg)}
+.hero p{font-size:1.05rem;color:var(--vm);max-width:560px;margin:0 auto 2.5rem}
+.hero-stats{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap}
+.hero-stat strong{display:block;font-size:1.7rem;font-weight:700;color:var(--vg);line-height:1}
+.hero-stat span{font-size:0.78rem;color:var(--vm);text-transform:uppercase;letter-spacing:0.08em}
+.progress-wrap{background:var(--vs);border-bottom:1px solid var(--vb);padding:1rem 2rem}
+.progress-inner{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:1rem}
+.progress-bar{flex:1;height:4px;background:var(--vb);border-radius:100px;overflow:hidden}
+.progress-fill{height:100%;background:var(--vg);border-radius:100px;transition:width 0.5s ease;width:0%}
+.progress-label{font-size:0.8rem;color:var(--vm);white-space:nowrap}
+main{max-width:780px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+.section-num{width:28px;height:28px;background:var(--vgl);border:1px solid rgba(46,204,113,0.3);border-radius:var(--rad);font-size:0.75rem;font-weight:700;color:var(--vg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-header h2{font-size:1rem;font-weight:600;color:var(--vw);letter-spacing:0.02em}
+.section-header p{font-size:0.8rem;color:var(--vm)}
+.question-block{background:var(--vc);border:1px solid var(--vb);border-radius:var(--radl);padding:1.4rem 1.6rem;margin-bottom:1rem}
+.question-block label{display:block;font-size:0.9rem;font-weight:600;color:var(--vt);margin-bottom:0.9rem}
+.options-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.opt-btn{background:var(--vs);border:1px solid var(--vb);border-radius:var(--rad);padding:10px 12px;font-size:0.82rem;color:var(--vm);cursor:pointer;transition:all 0.15s;text-align:left;line-height:1.4;width:100%}
+.opt-btn:hover{border-color:rgba(46,204,113,0.35);color:var(--vt)}
+.opt-btn.selected{background:var(--vgl);border-color:var(--vg);color:var(--vw);font-weight:500}
+.opt-score{display:block;font-size:0.7rem;color:var(--vi);margin-top:2px;font-weight:400}
+.opt-btn.selected .opt-score{color:rgba(46,204,113,0.7)}
+.section-divider{border:none;border-top:1px solid var(--vb);margin:2.5rem 0}
+.cta-row{display:flex;justify-content:center;margin-top:2.5rem}
+.btn-calculate{background:var(--vg);color:#0a1a0e;border:none;border-radius:var(--rad);padding:14px 36px;font-size:0.95rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:background 0.15s,transform 0.1s;text-transform:uppercase}
+.btn-calculate:hover:not(:disabled){background:#34d979;transform:translateY(-1px)}
+.btn-calculate:disabled{background:var(--vb);color:var(--vi);cursor:not-allowed;transform:none}
+.incomplete-hint{text-align:center;font-size:0.8rem;color:var(--vi);margin-top:0.75rem}
+#results{display:none;margin-top:3rem;border-top:1px solid var(--vb);padding-top:3rem}
+.results-title{font-size:1.4rem;font-weight:700;color:var(--vw);margin-bottom:0.3rem}
+.results-sub{font-size:0.9rem;color:var(--vm);margin-bottom:2rem}
+.score-card{background:var(--vc);border:1px solid var(--vb);border-radius:var(--radl);padding:2rem;display:flex;align-items:center;gap:2rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.dial-wrap{position:relative;width:120px;height:120px;flex-shrink:0}
+.dial-wrap svg{transform:rotate(-90deg)}
+.dial-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dial-score{font-size:2rem;font-weight:800;line-height:1;color:var(--vw)}
+.dial-label{font-size:0.65rem;color:var(--vm);text-transform:uppercase;letter-spacing:0.1em}
+.score-info{flex:1;min-width:200px}
+.score-band{display:inline-block;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;border-radius:100px;padding:3px 12px;margin-bottom:0.6rem}
+.score-band.low{background:rgba(46,204,113,0.15);color:var(--vg);border:1px solid rgba(46,204,113,0.3)}
+.score-band.medium{background:rgba(243,156,18,0.15);color:var(--va);border:1px solid rgba(243,156,18,0.3)}
+.score-band.high{background:rgba(231,76,60,0.15);color:var(--vr);border:1px solid rgba(231,76,60,0.3)}
+.score-name{font-size:1.05rem;font-weight:700;color:var(--vw);margin-bottom:0.4rem}
+.score-desc{font-size:0.88rem;color:var(--vm);line-height:1.5}
+.dim-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:540px){.dim-grid{grid-template-columns:1fr}}
+.dim-card{background:var(--vc);border:1px solid var(--vb);border-radius:var(--radl);padding:1.1rem 1.2rem}
+.dim-label{font-size:0.75rem;font-weight:600;color:var(--vm);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.dim-bar-wrap{height:6px;background:var(--vb);border-radius:100px;overflow:hidden;margin-bottom:0.4rem}
+.dim-bar-fill{height:100%;border-radius:100px;transition:width 0.8s ease}
+.dim-value{font-size:0.78rem;color:var(--vm)}
+.rec-card{background:var(--vc);border-radius:var(--radl);overflow:hidden;margin-bottom:1.5rem;border:1px solid var(--vb)}
+.rec-header{background:linear-gradient(90deg,#0e2318,#112a1a);border-bottom:1px solid rgba(46,204,113,0.2);padding:1rem 1.4rem;display:flex;align-items:center;gap:10px}
+.rec-header-icon{width:32px;height:32px;background:var(--vgl);border:1px solid rgba(46,204,113,0.3);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.rec-header-title{font-size:0.85rem;font-weight:700;color:var(--vw);text-transform:uppercase;letter-spacing:0.08em}
+.rec-header-sub{font-size:0.75rem;color:rgba(46,204,113,0.7)}
+.rec-body{padding:1.4rem}
+.rec-package{font-size:1.1rem;font-weight:700;color:var(--vw);margin-bottom:0.4rem}
+.rec-desc{font-size:0.87rem;color:var(--vm);margin-bottom:1.2rem;line-height:1.55}
+.rec-includes{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--vi);margin-bottom:0.7rem}
+.rec-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media(max-width:480px){.rec-list{grid-template-columns:1fr}}
+.rec-list li{display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;color:var(--vt)}
+.rec-list li::before{content:'✓';color:var(--vg);font-weight:700;flex-shrink:0;margin-top:1px}
+.kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:560px){.kpi-row{grid-template-columns:1fr 1fr}}
+.kpi-card{background:var(--vc);border:1px solid var(--vb);border-radius:var(--radl);padding:1.1rem 1.2rem}
+.kpi-icon{font-size:1.2rem;margin-bottom:0.5rem}
+.kpi-val{font-size:1.25rem;font-weight:700;color:var(--vw);line-height:1.1;margin-bottom:0.2rem}
+.kpi-lbl{font-size:0.72rem;color:var(--vm);text-transform:uppercase;letter-spacing:0.08em}
+.flags-section{margin-bottom:1.5rem}
+.flags-title{font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--vm);margin-bottom:0.8rem}
+.flag-item{display:flex;align-items:flex-start;gap:10px;background:var(--vc);border:1px solid var(--vb);border-left:3px solid var(--va);border-radius:var(--rad);padding:0.8rem 1rem;margin-bottom:8px;font-size:0.83rem;color:var(--vt);line-height:1.45}
+.flag-item.critical{border-left-color:var(--vr)}
+.flag-icon{flex-shrink:0;font-size:1rem}
+.btn-reset{background:transparent;border:1px solid var(--vb);color:var(--vm);border-radius:var(--rad);padding:10px 24px;font-size:0.85rem;cursor:pointer;transition:all 0.15s;display:block;margin:2rem auto 0}
+.btn-reset:hover{border-color:var(--vi);color:var(--vt)}
+footer{background:var(--vk);border-top:1px solid var(--vb);padding:2rem;text-align:center}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:0.6rem}
+.footer-text{font-size:0.78rem;color:var(--vi)}
+.footer-text a{color:var(--vg);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="https://versent.com.au" target="_blank" rel="noopener">
+    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="12" fill="#111418"/>
+      <polygon points="50,20 80,78 65,78 50,48 35,78 20,78" fill="#2ECC71"/>
+    </svg>
+    <span class="logo-name">Versent</span>
+  </a>
+  <span class="header-tag">Business Strategy – OCM</span>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Business Strategy – OCM</div>
+  <h1>Size the change.<br><span>Before you scope the work.</span></h1>
+  <p>Answer 12 questions about your program and get an instant complexity score, risk profile, and recommended change investment level.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>2 in 3</strong><span>Change initiatives fail or underperform</span></div>
+    <div class="hero-stat"><strong>$17M</strong><span>Average cost of inadequate adoption assurance</span></div>
+    <div class="hero-stat"><strong>6&times;</strong><span>More likely to succeed with strong OCM</span></div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">0 of 12 answered</span>
+  </div>
+</div>
+
+<main>
+
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div><h2>Scale &amp; Reach</h2><p>Who and how many are affected?</p></div>
+  </div>
+
+  <div class="question-block">
+    <label>How many people are directly impacted by this change?</label>
+    <div class="options-grid" id="g-q1">
+      <button class="opt-btn" onclick="pick('q1',1,this)">Under 50<span class="opt-score">Low volume</span></button>
+      <button class="opt-btn" onclick="pick('q1',2,this)">50 – 250<span class="opt-score">Moderate</span></button>
+      <button class="opt-btn" onclick="pick('q1',3,this)">250 – 1,000<span class="opt-score">Significant</span></button>
+      <button class="opt-btn" onclick="pick('q1',4,this)">1,000+<span class="opt-score">Enterprise-wide</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How many locations or geographies are involved?</label>
+    <div class="options-grid" id="g-q2">
+      <button class="opt-btn" onclick="pick('q2',1,this)">Single site<span class="opt-score">One location</span></button>
+      <button class="opt-btn" onclick="pick('q2',2,this)">Multiple sites, same region<span class="opt-score">State-level</span></button>
+      <button class="opt-btn" onclick="pick('q2',3,this)">Multi-state or national<span class="opt-score">AU-wide</span></button>
+      <button class="opt-btn" onclick="pick('q2',4,this)">International<span class="opt-score">Cross-border</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How many distinct role types or personas are affected?</label>
+    <div class="options-grid" id="g-q3">
+      <button class="opt-btn" onclick="pick('q3',1,this)">1 – 2 roles<span class="opt-score">Narrow</span></button>
+      <button class="opt-btn" onclick="pick('q3',2,this)">3 – 5 roles<span class="opt-score">Moderate breadth</span></button>
+      <button class="opt-btn" onclick="pick('q3',3,this)">6 – 10 roles<span class="opt-score">Wide reach</span></button>
+      <button class="opt-btn" onclick="pick('q3',4,this)">10+ roles<span class="opt-score">Cross-function</span></button>
+    </div>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div><h2>Nature of Change</h2><p>What is actually changing, and how much?</p></div>
+  </div>
+
+  <div class="question-block">
+    <label>What best describes the type of change?</label>
+    <div class="options-grid" id="g-q4">
+      <button class="opt-btn" onclick="pick('q4',1,this)">Process improvement<span class="opt-score">Incremental</span></button>
+      <button class="opt-btn" onclick="pick('q4',2,this)">New system / technology<span class="opt-score">Tool-led</span></button>
+      <button class="opt-btn" onclick="pick('q4',3,this)">Restructure or re-org<span class="opt-score">People-led</span></button>
+      <button class="opt-btn" onclick="pick('q4',4,this)">Business transformation<span class="opt-score">Operating model</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How significantly are day-to-day working practices changing?</label>
+    <div class="options-grid" id="g-q5">
+      <button class="opt-btn" onclick="pick('q5',1,this)">Minimal — tweaks only<span class="opt-score">Low disruption</span></button>
+      <button class="opt-btn" onclick="pick('q5',2,this)">Moderate — new steps added<span class="opt-score">Some retraining</span></button>
+      <button class="opt-btn" onclick="pick('q5',3,this)">Significant — new ways of working<span class="opt-score">Behaviour shift</span></button>
+      <button class="opt-btn" onclick="pick('q5',4,this)">Fundamental — roles redefined<span class="opt-score">Transformational</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How compressed is the timeline for delivery?</label>
+    <div class="options-grid" id="g-q6">
+      <button class="opt-btn" onclick="pick('q6',1,this)">12+ months<span class="opt-score">Ample runway</span></button>
+      <button class="opt-btn" onclick="pick('q6',2,this)">6 – 12 months<span class="opt-score">Manageable</span></button>
+      <button class="opt-btn" onclick="pick('q6',3,this)">3 – 6 months<span class="opt-score">Tight</span></button>
+      <button class="opt-btn" onclick="pick('q6',4,this)">Under 3 months<span class="opt-score">High-pressure</span></button>
+    </div>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div><h2>Organisational Readiness</h2><p>How prepared is the business to absorb this change?</p></div>
+  </div>
+
+  <div class="question-block">
+    <label>What is the current level of leadership sponsorship?</label>
+    <div class="options-grid" id="g-q7">
+      <button class="opt-btn" onclick="pick('q7',1,this)">Strong — exec visibly committed<span class="opt-score">Active sponsor</span></button>
+      <button class="opt-btn" onclick="pick('q7',2,this)">Moderate — aligned but passive<span class="opt-score">Nominal support</span></button>
+      <button class="opt-btn" onclick="pick('q7',3,this)">Weak — limited engagement<span class="opt-score">Competing priorities</span></button>
+      <button class="opt-btn" onclick="pick('q7',4,this)">Absent — no clear sponsor<span class="opt-score">Critical risk</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How much change saturation exists in this organisation?</label>
+    <div class="options-grid" id="g-q8">
+      <button class="opt-btn" onclick="pick('q8',1,this)">Low — few active programs<span class="opt-score">Fresh capacity</span></button>
+      <button class="opt-btn" onclick="pick('q8',2,this)">Moderate — 1-2 other programs<span class="opt-score">Some fatigue</span></button>
+      <button class="opt-btn" onclick="pick('q8',3,this)">High — multiple concurrent programs<span class="opt-score">Fatigue risk</span></button>
+      <button class="opt-btn" onclick="pick('q8',4,this)">Critical — change exhaustion evident<span class="opt-score">High resistance</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>What is the history of change success in this organisation?</label>
+    <div class="options-grid" id="g-q9">
+      <button class="opt-btn" onclick="pick('q9',1,this)">Strong — previous programs landed well<span class="opt-score">Change-ready</span></button>
+      <button class="opt-btn" onclick="pick('q9',2,this)">Mixed — some wins, some failures<span class="opt-score">Cautious</span></button>
+      <button class="opt-btn" onclick="pick('q9',3,this)">Poor — recent programs struggled<span class="opt-score">Low trust</span></button>
+      <button class="opt-btn" onclick="pick('q9',4,this)">Very poor — significant trauma<span class="opt-score">High resistance</span></button>
+    </div>
+  </div>
+
+  <hr class="section-divider"/>
+
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div><h2>Internal Capability</h2><p>Does the organisation have the skills to support change?</p></div>
+  </div>
+
+  <div class="question-block">
+    <label>Does the organisation have an internal change management capability?</label>
+    <div class="options-grid" id="g-q10">
+      <button class="opt-btn" onclick="pick('q10',1,this)">Yes — dedicated team in place<span class="opt-score">Self-sufficient</span></button>
+      <button class="opt-btn" onclick="pick('q10',2,this)">Partial — someone owns it, part-time<span class="opt-score">Limited capacity</span></button>
+      <button class="opt-btn" onclick="pick('q10',3,this)">Minimal — change is ad hoc<span class="opt-score">No framework</span></button>
+      <button class="opt-btn" onclick="pick('q10',4,this)">None — no internal capability<span class="opt-score">Fully dependent</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>How complex is the stakeholder landscape?</label>
+    <div class="options-grid" id="g-q11">
+      <button class="opt-btn" onclick="pick('q11',1,this)">Simple — few, aligned stakeholders<span class="opt-score">Low complexity</span></button>
+      <button class="opt-btn" onclick="pick('q11',2,this)">Moderate — some competing interests<span class="opt-score">Manageable</span></button>
+      <button class="opt-btn" onclick="pick('q11',3,this)">Complex — multiple exec sponsors<span class="opt-score">Political tension</span></button>
+      <button class="opt-btn" onclick="pick('q11',4,this)">Very complex — union or regulatory layer<span class="opt-score">External oversight</span></button>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <label>What level of training is required?</label>
+    <div class="options-grid" id="g-q12">
+      <button class="opt-btn" onclick="pick('q12',1,this)">Minimal — awareness only<span class="opt-score">Comms-led</span></button>
+      <button class="opt-btn" onclick="pick('q12',2,this)">Moderate — eLearning or guides<span class="opt-score">Self-directed</span></button>
+      <button class="opt-btn" onclick="pick('q12',3,this)">Significant — instructor-led sessions<span class="opt-score">Facilitated</span></button>
+      <button class="opt-btn" onclick="pick('q12',4,this)">Extensive — multi-persona training<span class="opt-score">Full program</span></button>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <button class="btn-calculate" id="calcBtn" disabled onclick="calculate()">Calculate Change Complexity</button>
+  </div>
+  <p class="incomplete-hint" id="hint">Complete all 12 questions to see your results</p>
+
+  <div id="results">
+    <div class="results-title">Your Change Complexity Report</div>
+    <div class="results-sub" id="resultsSub"></div>
+    <div class="score-card">
+      <div class="dial-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#2B3441" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" id="dialArc" stroke="#2ECC71" stroke-width="8" stroke-dasharray="314 314" stroke-dashoffset="314" stroke-linecap="round"/>
+        </svg>
+        <div class="dial-center">
+          <div class="dial-score" id="dialScore">0</div>
+          <div class="dial-label">/ 48</div>
+        </div>
+      </div>
+      <div class="score-info">
+        <div class="score-band" id="scoreBand"></div>
+        <div class="score-name" id="scoreName"></div>
+        <div class="score-desc" id="scoreDesc"></div>
+      </div>
+    </div>
+    <div class="dim-grid" id="dimGrid"></div>
+    <div class="kpi-row" id="kpiRow"></div>
+    <div class="rec-card" id="recCard"></div>
+    <div class="flags-section" id="flagsSec"></div>
+    <button class="btn-reset" onclick="resetTool()">&#8635; Start Again</button>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+      <rect width="100" height="100" rx="8" fill="#111418"/>
+      <polygon points="50,18 78,78 63,78 50,46 37,78 22,78" fill="#2ECC71"/>
+    </svg>
+    <span style="font-size:0.85rem;font-weight:700;letter-spacing:0.08em;color:#FFFFFF;text-transform:uppercase;">Versent</span>
+  </div>
+  <div class="footer-text">Business Strategy &ndash; OCM &middot; <a href="https://versent.com.au" target="_blank">versent.com.au</a></div>
+</footer>
+
+<script>
+var ans = {};
+var count = 0;
+
+function pick(q, score, btn) {
+  var grid = document.getElementById('g-' + q);
+  var btns = grid.getElementsByClassName('opt-btn');
+  var wasAnswered = ans[q] !== undefined;
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.remove('selected');
+  }
+  btn.classList.add('selected');
+  ans[q] = score;
+  if (!wasAnswered) count++;
+  var pct = (count / 12) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = count + ' of 12 answered';
+  var cb = document.getElementById('calcBtn');
+  var h = document.getElementById('hint');
+  if (count === 12) {
+    cb.disabled = false;
+    h.textContent = 'All questions answered — ready to calculate';
+  } else {
+    cb.disabled = true;
+    h.textContent = (12 - count) + ' question' + (12 - count !== 1 ? 's' : '') + ' remaining';
+  }
+}
+
+function calculate() {
+  var total = 0;
+  for (var k in ans) { total += ans[k]; }
+
+  var d1 = ans.q1 + ans.q2 + ans.q3;
+  var d2 = ans.q4 + ans.q5 + ans.q6;
+  var d3 = ans.q7 + ans.q8 + ans.q9;
+  var d4 = ans.q10 + ans.q11 + ans.q12;
+
+  var band, bandClass, name, desc, pkg, pkgDesc, includes, blo, bhi, weeks, fte;
+
+  if (total <= 18) {
+    band = 'Low Complexity'; bandClass = 'low'; name = 'Advisory Engagement';
+    desc = 'This program has manageable change complexity. A light-touch advisory approach — structured planning, targeted stakeholder engagement, and a comms framework — will be sufficient to land the change effectively.';
+    pkg = 'CM Advisory Package';
+    pkgDesc = 'Structured guidance, change impact assessment, a stakeholder map, and a communications plan. Designed for programs with focused scope and a capable internal team.';
+    includes = ['Change Impact Assessment','Stakeholder Mapping','Communications Plan','Manager Briefing Kit','Go-live Readiness Check','Adoption Scorecard'];
+    blo = '40K'; bhi = '80K'; weeks = '8–12 weeks'; fte = '0.5 FTE';
+  } else if (total <= 30) {
+    band = 'Medium Complexity'; bandClass = 'medium'; name = 'Packaged Delivery';
+    desc = 'This program has moderate-to-significant change complexity. A structured, packaged delivery approach is recommended — covering the full change lifecycle with dedicated Versent resources embedded alongside your team.';
+    pkg = 'CM Packaged Delivery';
+    pkgDesc = 'End-to-end change management delivered by a dedicated Versent senior change lead. Includes persona-based design, training design, stakeholder engagement, and a structured adoption program.';
+    includes = ['Persona-Based Change Design','Full Stakeholder Engagement','Training Needs Analysis','Training Design & Development','Go-live Readiness Assessment','Hypercare Support','Project Story Pack','Change Champion Network'];
+    blo = '120K'; bhi = '220K'; weeks = '12–20 weeks'; fte = '1.0 FTE';
+  } else {
+    band = 'High Complexity'; bandClass = 'high'; name = 'Design & Delivery';
+    desc = 'This program carries high change complexity. A full Design & Delivery engagement is required — with a Versent change team embedded from strategy through to sustained adoption.';
+    pkg = 'CM Design & Delivery';
+    pkgDesc = 'Versent\'s most comprehensive change offering — a senior-led team working across strategy, design, delivery, and adoption. Built for enterprise transformation programs where change is the critical path.';
+    includes = ['Change Strategy & Program Story','Executive Sponsorship Coaching','Persona-Based Design (full suite)','Multi-modal Training Program','Change Champion Network','Communications Design & Delivery','Readiness & Adoption Measurement','Hypercare + Post-go-live Adoption'];
+    blo = '280K'; bhi = '600K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE';
+  }
+
+  // Animate dial
+  var dialScore = document.getElementById('dialScore');
+  var dialArc = document.getElementById('dialArc');
+  var arcColors = {low:'#2ECC71', medium:'#F39C12', high:'#E74C3C'};
+  dialArc.style.stroke = arcColors[bandClass];
+  var cur = 0;
+  var timer = setInterval(function() {
+    cur = Math.min(cur + 1, total);
+    dialScore.textContent = cur;
+    dialArc.style.strokeDashoffset = 314 - (314 * cur / 48);
+    if (cur >= total) clearInterval(timer);
+  }, 35);
+
+  document.getElementById('scoreBand').textContent = band;
+  document.getElementById('scoreBand').className = 'score-band ' + bandClass;
+  document.getElementById('scoreName').textContent = name;
+  document.getElementById('scoreDesc').textContent = desc;
+  document.getElementById('resultsSub').textContent = 'Program score: ' + total + '/48 · Generated ' + new Date().toLocaleDateString('en-AU', {day:'numeric',month:'long',year:'numeric'});
+
+  var dims = [
+    {label:'Scale & Reach', score:d1},
+    {label:'Nature of Change', score:d2},
+    {label:'Org Readiness', score:d3},
+    {label:'Internal Capability', score:d4}
+  ];
+  var dg = document.getElementById('dimGrid');
+  dg.innerHTML = dims.map(function(d) {
+    var pct = (d.score/12)*100;
+    var c = d.score <= 5 ? '#2ECC71' : d.score <= 8 ? '#F39C12' : '#E74C3C';
+    var lv = d.score <= 5 ? 'Low' : d.score <= 8 ? 'Medium' : 'High';
+    return '<div class="dim-card"><div class="dim-label">'+d.label+'</div><div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:'+pct+'%;background:'+c+'"></div></div><div class="dim-value">'+d.score+' / 12 — <span style="color:'+c+'">'+lv+'</span></div></div>';
+  }).join('');
+
+  document.getElementById('kpiRow').innerHTML =
+    '<div class="kpi-card"><div class="kpi-icon">&#128176;</div><div class="kpi-val">$'+blo+' – $'+bhi+'</div><div class="kpi-lbl">Indicative Investment</div></div>' +
+    '<div class="kpi-card"><div class="kpi-icon">&#128197;</div><div class="kpi-val">'+weeks+'</div><div class="kpi-lbl">Typical Duration</div></div>' +
+    '<div class="kpi-card"><div class="kpi-icon">&#128100;</div><div class="kpi-val">'+fte+'</div><div class="kpi-lbl">Change Resource</div></div>';
+
+  document.getElementById('recCard').innerHTML =
+    '<div class="rec-header"><div class="rec-header-icon">&#10022;</div><div><div class="rec-header-title">Recommended Approach</div><div class="rec-header-sub">Based on your complexity profile</div></div></div>' +
+    '<div class="rec-body"><div class="rec-package">'+pkg+'</div><div class="rec-desc">'+pkgDesc+'</div><div class="rec-includes">Includes</div><ul class="rec-list">'+includes.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul></div>';
+
+  var flags = [];
+  if (ans.q7 >= 3) flags.push({critical:true, text:'Leadership sponsorship is weak or absent. This is the #1 predictor of change failure — escalate immediately and secure an active, visible executive sponsor before proceeding.'});
+  if (ans.q8 >= 3) flags.push({critical:false, text:'High change saturation detected. Sequence this program carefully against other active initiatives. Consider a change calendar to manage competing demands on affected people.'});
+  if (ans.q9 >= 3) flags.push({critical:false, text:'Poor track record with previous change programs. Expect elevated resistance. Invest early in trust-building activities and transparent communication about what is different this time.'});
+  if (ans.q10 >= 3) flags.push({critical:false, text:'No internal change capability. The organisation is fully dependent on external support — factor in knowledge transfer and internal uplift as a program outcome, not an afterthought.'});
+  if (ans.q6 >= 3 && total >= 25) flags.push({critical:true, text:'Compressed timeline combined with medium-to-high complexity creates significant delivery risk. Consider phasing the rollout or increasing change resource to protect the schedule.'});
+
+  var fs = document.getElementById('flagsSec');
+  if (flags.length > 0) {
+    fs.innerHTML = '<div class="flags-title">&#9888; Risk Flags</div>' +
+      flags.map(function(f) {
+        return '<div class="flag-item'+(f.critical?' critical':'')+'"><span class="flag-icon">'+(f.critical?'&#128308;':'&#128993;')+'</span><span>'+f.text+'</span></div>';
+      }).join('');
+  } else {
+    fs.innerHTML = '<div class="flag-item" style="border-left-color:#2ECC71"><span class="flag-icon">&#128994;</span><span>No critical risk flags identified. This program has a solid foundation for successful change delivery.</span></div>';
+  }
+
+  var r = document.getElementById('results');
+  r.style.display = 'block';
+  setTimeout(function(){ r.scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
+}
+
+function resetTool() {
+  ans = {};
+  count = 0;
+  var btns = document.getElementsByClassName('opt-btn');
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('selected'); }
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('calcBtn').disabled = true;
+  document.getElementById('hint').textContent = 'Complete all 12 questions to see your results';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('progressLabel').textContent = '0 of 12 answered';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
