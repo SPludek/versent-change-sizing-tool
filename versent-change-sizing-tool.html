@@ -1,8 +1,3 @@
-<bash
-
-cat /mnt/user-data/outputs/versent-change-sizing-tool.html
-Output
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +10,7 @@ Output
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--vd);color:var(--vt);min-height:100vh;line-height:1.6}
 header{background:var(--vk);border-bottom:1px solid var(--vb);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.logo-name{font-size:1.1rem;font-weight:700;letter-spacing:0.08em;color:var(--vw);text-transform:uppercase}
+.logo svg{height:36px;width:auto}
 .header-tag{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--vm)}
 .hero{background:linear-gradient(160deg,#0D1219 0%,#111820 60%,#0A1A12 100%);border-bottom:1px solid var(--vb);padding:4rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(46,204,113,0.07) 0%,transparent 70%);pointer-events:none}
@@ -320,11 +315,9 @@ footer{background:var(--vk);border-top:1px solid var(--vb);padding:2rem;text-ali
 
 <footer>
   <div class="footer-logo">
-    <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
-      <rect width="100" height="100" rx="8" fill="#111418"/>
-      <polygon points="50,18 78,78 63,78 50,46 37,78 22,78" fill="#2ECC71"/>
-    </svg>
-    <span style="font-size:0.85rem;font-weight:700;letter-spacing:0.08em;color:#FFFFFF;text-transform:uppercase;">Versent</span>
+    <svg height="28" viewBox="0 0 152 142" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.2153 142L152.141 0C122.459 33.2169 96.6815 61.5811 50.1132 62.0467C64.081 67.9021 77.6458 67.2665 90.199 65.3236L64.7614 107.834C54.214 89.6946 44.7051 71.5372 34.1666 53.4067C51.7248 56.1285 79.0964 55.26 100.281 40.0304C63.6601 52.4129 23.8608 42.5373 0.0170898 29.9937L64.2332 142.009L64.2153 142Z" fill="#00D700"/>
+</svg>
   </div>
   <div class="footer-text">Business Strategy &ndash; OCM &middot; <a href="https://versent.com.au" target="_blank">versent.com.au</a></div>
 </footer>
@@ -374,21 +367,21 @@ function calculate() {
     pkg = 'CM Advisory Package';
     pkgDesc = 'Structured guidance, change impact assessment, a stakeholder map, and a communications plan. Designed for programs with focused scope and a capable internal team.';
     includes = ['Change Impact Assessment','Stakeholder Mapping','Communications Plan','Manager Briefing Kit','Go-live Readiness Check','Adoption Scorecard'];
-    blo = '40K'; bhi = '80K'; weeks = '8–12 weeks'; fte = '0.5 FTE';
+    blo = '43K'; bhi = '64K'; weeks = '8–12 weeks'; fte = '0.5 FTE';
   } else if (total <= 30) {
     band = 'Medium Complexity'; bandClass = 'medium'; name = 'Packaged Delivery';
     desc = 'This program has moderate-to-significant change complexity. A structured, packaged delivery approach is recommended — covering the full change lifecycle with dedicated Versent resources embedded alongside your team.';
     pkg = 'CM Packaged Delivery';
     pkgDesc = 'End-to-end change management delivered by a dedicated Versent senior change lead. Includes persona-based design, training design, stakeholder engagement, and a structured adoption program.';
     includes = ['Persona-Based Change Design','Full Stakeholder Engagement','Training Needs Analysis','Training Design & Development','Go-live Readiness Assessment','Hypercare Support','Project Story Pack','Change Champion Network'];
-    blo = '120K'; bhi = '220K'; weeks = '12–20 weeks'; fte = '1.0 FTE';
+    blo = '129K'; bhi = '215K'; weeks = '12–20 weeks'; fte = '1.0 FTE';
   } else {
     band = 'High Complexity'; bandClass = 'high'; name = 'Design & Delivery';
     desc = 'This program carries high change complexity. A full Design & Delivery engagement is required — with a Versent change team embedded from strategy through to sustained adoption.';
     pkg = 'CM Design & Delivery';
     pkgDesc = 'Versent\'s most comprehensive change offering — a senior-led team working across strategy, design, delivery, and adoption. Built for enterprise transformation programs where change is the critical path.';
     includes = ['Change Strategy & Program Story','Executive Sponsorship Coaching','Persona-Based Design (full suite)','Multi-modal Training Program','Change Champion Network','Communications Design & Delivery','Readiness & Adoption Measurement','Hypercare + Post-go-live Adoption'];
-    blo = '280K'; bhi = '600K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE';
+    blo = '322K'; bhi = '645K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE';
   }
 
   // Animate dial
@@ -470,4 +463,3 @@ function resetTool() {
 </script>
 </body>
 </html>
-Done
