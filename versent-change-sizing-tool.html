@@ -378,21 +378,21 @@ function calculate() {
     pkg = 'CM Advisory Package';
     pkgDesc = 'Structured guidance, change impact assessment, a stakeholder map, and a communications plan. Designed for programs with focused scope and a capable internal team.';
     includes = ['Change Impact Assessment','Stakeholder Mapping','Communications Plan','Manager Briefing Kit','Go-live Readiness Check','Adoption Scorecard'];
-    blo = '43K'; bhi = '64K'; weeks = '6–10 weeks'; fte = '0.5 FTE'; reinforce = '4–6 weeks';
+    blo = '43K'; bhi = '64K'; weeks = '6–10 weeks'; fte = '0.5 FTE'; reinforce = 'Embedded throughout';
   } else if (total <= 30) {
     band = 'Medium Complexity'; bandClass = 'medium'; name = 'Packaged Delivery';
     desc = 'This program has moderate-to-significant change complexity. A structured, packaged delivery approach is recommended — covering the full change lifecycle with dedicated Versent resources embedded alongside your team.';
     pkg = 'CM Packaged Delivery';
     pkgDesc = 'End-to-end change management delivered by a dedicated Versent senior change lead. Includes persona-based design, training design, stakeholder engagement, and a structured adoption program.';
     includes = ['Persona-Based Change Design','Full Stakeholder Engagement','Training Needs Analysis','Training Design & Development','Go-live Readiness Assessment','Hypercare Support','Project Story Pack','Change Champion Network'];
-    blo = '129K'; bhi = '215K'; weeks = '12–20 weeks'; fte = '1.0 FTE'; reinforce = '8–12 weeks';
+    blo = '129K'; bhi = '215K'; weeks = '12–20 weeks'; fte = '1.0 FTE'; reinforce = 'Embedded throughout';
   } else {
     band = 'High Complexity'; bandClass = 'high'; name = 'Design & Delivery';
     desc = 'This program carries high change complexity. A full Design & Delivery engagement is required — with a Versent change team embedded from strategy through to sustained adoption.';
     pkg = 'CM Design & Delivery';
     pkgDesc = 'Versent\'s most comprehensive change offering — a senior-led team working across strategy, design, delivery, and adoption. Built for enterprise transformation programs where change is the critical path.';
     includes = ['Change Strategy & Program Story','Executive Sponsorship Coaching','Persona-Based Design (full suite)','Multi-modal Training Program','Change Champion Network','Communications Design & Delivery','Readiness & Adoption Measurement','Hypercare + Post-go-live Adoption'];
-    blo = '322K'; bhi = '645K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE'; reinforce = '12–24 weeks';
+    blo = '322K'; bhi = '645K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE'; reinforce = 'Embedded throughout';
   }
 
   // Animate dial
@@ -431,11 +431,11 @@ function calculate() {
   document.getElementById('kpiRow').innerHTML =
     '<div class="kpi-card"><div class="kpi-icon">&#128176;</div><div class="kpi-val">$'+blo+' – $'+bhi+'</div><div class="kpi-lbl">Indicative Investment</div></div>' +
     '<div class="kpi-card"><div class="kpi-icon">&#128197;</div><div class="kpi-val">'+weeks+'</div><div class="kpi-lbl">Delivery Duration</div></div>' +
-    '<div class="kpi-card"><div class="kpi-icon">&#127793;</div><div class="kpi-val">'+reinforce+'</div><div class="kpi-lbl">Reinforcement Period</div></div>' +
+    '<div class="kpi-card"><div class="kpi-icon">&#127793;</div><div class="kpi-val">'+reinforce+'</div><div class="kpi-lbl">Reinforcement Approach</div></div>' +
     '<div class="kpi-card"><div class="kpi-icon">&#128100;</div><div class="kpi-val">'+fte+'</div><div class="kpi-lbl">Change Resource</div></div>';
 
   document.getElementById('methodNote').innerHTML =
-    '<strong>Methodology:</strong> Duration estimates are based on Prosci\'s ADKAR model — the minimum time typically required to move people through Awareness, Desire, Knowledge, Ability and Reinforcement at this level of disruption. Reinforcement period reflects the post-go-live window needed to sustain behaviour change, not just deliver it.';
+    '<strong>Methodology:</strong> Duration estimates are based on Prosci\'s ADKAR model — the minimum time typically required to move people through Awareness, Desire, Knowledge, Ability and Reinforcement at this level of disruption. Reinforcement is embedded throughout delivery rather than run as a separate post-go-live phase, ensuring behaviour change is sustained alongside the project, not bolted on afterwards.';
 
   document.getElementById('recCard').innerHTML =
     '<div class="rec-header"><div class="rec-header-icon">&#10022;</div><div><div class="rec-header-title">Recommended Approach</div><div class="rec-header-sub">Based on your complexity profile</div></div></div>' +
