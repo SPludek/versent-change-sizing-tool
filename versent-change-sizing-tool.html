@@ -81,8 +81,11 @@ main{max-width:780px;margin:0 auto;padding:2.5rem 2rem 4rem}
 @media(max-width:480px){.rec-list{grid-template-columns:1fr}}
 .rec-list li{display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;color:var(--vt)}
 .rec-list li::before{content:'✓';color:var(--vg);font-weight:700;flex-shrink:0;margin-top:1px}
-.kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
-@media(max-width:560px){.kpi-row{grid-template-columns:1fr 1fr}}
+.kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;margin-bottom:0.8rem}
+@media(max-width:680px){.kpi-row{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.kpi-row{grid-template-columns:1fr}}
+.methodology-note{font-size:0.75rem;color:var(--vi);line-height:1.5;margin-bottom:1.5rem;padding:0.8rem 1rem;background:var(--vc);border:1px solid var(--vb);border-radius:var(--rad)}
+.methodology-note strong{color:var(--vm)}
 .kpi-card{background:var(--vc);border:1px solid var(--vb);border-radius:var(--radl);padding:1.1rem 1.2rem}
 .kpi-icon{font-size:1.2rem;margin-bottom:0.5rem}
 .kpi-val{font-size:1.25rem;font-weight:700;color:var(--vw);line-height:1.1;margin-bottom:0.2rem}
@@ -104,11 +107,18 @@ footer{background:var(--vk);border-top:1px solid var(--vb);padding:2rem;text-ali
 
 <header>
   <a class="logo" href="https://versent.com.au" target="_blank" rel="noopener">
-    <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100" height="100" rx="12" fill="#111418"/>
-      <polygon points="50,20 80,78 65,78 50,48 35,78 20,78" fill="#2ECC71"/>
-    </svg>
-    <span class="logo-name">Versent</span>
+    <svg height="36" viewBox="0 0 604 142" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#FFFFFF">
+    <path d="M218.677 53.353L196.131 121.998H191.708L169.091 53.353H174.606L193.911 112.812L213.17 53.353H218.677Z"/>
+    <path d="M276.643 121.989H234.981V53.344H276.643V57.9639H240.21V85.0746H271.235V89.6946H240.21V117.378H276.643V121.989Z"/>
+    <path d="M344.038 121.989H337.958L321.582 90.3571H302.698V121.989H297.478V53.344H323.605C327.411 53.344 330.795 54.0603 333.759 55.4928C336.722 56.9164 339.059 59.0204 340.752 61.7959C342.444 64.5804 343.294 67.9021 343.294 71.761C343.294 76.7838 341.889 80.9024 339.077 84.1345C336.266 87.3756 332.398 89.417 327.473 90.2586L344.047 121.989H344.038ZM338.048 71.8505C338.048 67.2933 336.678 63.8463 333.938 61.4915C331.18 59.1368 327.527 57.955 322.943 57.955H302.698V85.7372H322.943C325.172 85.7372 327.214 85.4417 329.058 84.8687C330.903 84.2867 332.487 83.4272 333.812 82.2991C335.129 81.171 336.167 79.7295 336.919 77.9746C337.68 76.2198 338.048 74.1784 338.048 71.8595"/>
+    <path d="M405.872 103.581C405.872 106.401 405.344 109.007 404.287 111.371C403.24 113.743 401.718 115.749 399.721 117.405C397.733 119.044 395.28 120.324 392.379 121.219C389.469 122.106 386.264 122.553 382.745 122.553C379.477 122.553 376.504 122.24 373.809 121.613C371.114 120.986 368.634 120.002 366.368 118.65C364.112 117.307 361.945 115.588 359.877 113.519L363.539 109.84C365.616 111.908 367.604 113.537 369.511 114.728C371.427 115.892 373.478 116.725 375.671 117.217C377.865 117.692 380.309 117.942 383.004 117.942C386.613 117.942 389.729 117.387 392.361 116.277C394.984 115.149 397.035 113.519 398.476 111.371C399.909 109.222 400.643 106.688 400.643 103.769C400.643 99.5701 399.39 96.3559 396.883 94.1175C395.719 93.1147 394.438 92.3627 393.024 91.8344C391.609 91.3241 389.594 90.8585 386.962 90.4556L378.966 89.229C373.764 88.4501 369.69 86.7668 366.736 84.1972C363.127 81.1889 361.327 76.9719 361.327 71.582C361.327 68.69 361.838 66.0757 362.859 63.7478C363.87 61.411 365.294 59.4233 367.112 57.8207C368.929 56.2001 371.177 54.9646 373.836 54.105C376.504 53.2366 379.441 52.7979 382.628 52.7979C386.801 52.7979 390.4 53.3977 393.409 54.5706C396.417 55.7525 399.408 57.6237 402.389 60.2023L398.987 63.5866C396.569 61.4199 394.134 59.8173 391.672 58.7876C389.209 57.7491 386.102 57.2387 382.342 57.2387C377.39 57.2387 373.505 58.5101 370.684 61.0528C367.864 63.5956 366.449 67.0426 366.449 71.4208C366.449 75.405 367.622 78.3775 369.968 80.3652C371.248 81.4038 372.833 82.2991 374.695 83.0691C376.558 83.8391 378.402 84.3494 380.211 84.6001L387.598 85.782C390.767 86.2475 393.256 86.8116 395.047 87.4741C396.847 88.1367 398.45 89.0768 399.855 90.3034C401.816 91.8971 403.294 93.84 404.314 96.1141C405.344 98.3883 405.845 100.895 405.845 103.626"/>
+    <path d="M468.655 121.989H426.985V53.344H468.655V57.9639H432.205V85.0746H463.238V89.6946H432.205V117.378H468.655V121.989Z"/>
+    <path d="M539.524 121.989H534.304L494.702 62.2973V121.989H489.482V53.344H494.702L534.304 112.803V53.344H539.524V121.989Z"/>
+    <path d="M604 57.964H583.478V121.989H578.249V57.964H557.817V53.353H604V57.964Z"/>
+  </g>
+  <path d="M64.2153 142L152.141 0C122.459 33.2169 96.6815 61.5811 50.1132 62.0467C64.081 67.9021 77.6458 67.2665 90.199 65.3236L64.7614 107.834C54.214 89.6946 44.7051 71.5372 34.1666 53.4067C51.7248 56.1285 79.0964 55.26 100.281 40.0304C63.6601 52.4129 23.8608 42.5373 0.0170898 29.9937L64.2332 142.009L64.2153 142Z" fill="#00D700"/>
+</svg>
   </a>
   <span class="header-tag">Business Strategy – OCM</span>
 </header>
@@ -306,6 +316,7 @@ footer{background:var(--vk);border-top:1px solid var(--vb);padding:2rem;text-ali
     </div>
     <div class="dim-grid" id="dimGrid"></div>
     <div class="kpi-row" id="kpiRow"></div>
+    <div class="methodology-note" id="methodNote"></div>
     <div class="rec-card" id="recCard"></div>
     <div class="flags-section" id="flagsSec"></div>
     <button class="btn-reset" onclick="resetTool()">&#8635; Start Again</button>
@@ -359,7 +370,7 @@ function calculate() {
   var d3 = ans.q7 + ans.q8 + ans.q9;
   var d4 = ans.q10 + ans.q11 + ans.q12;
 
-  var band, bandClass, name, desc, pkg, pkgDesc, includes, blo, bhi, weeks, fte;
+  var band, bandClass, name, desc, pkg, pkgDesc, includes, blo, bhi, weeks, fte, reinforce;
 
   if (total <= 18) {
     band = 'Low Complexity'; bandClass = 'low'; name = 'Advisory Engagement';
@@ -367,21 +378,21 @@ function calculate() {
     pkg = 'CM Advisory Package';
     pkgDesc = 'Structured guidance, change impact assessment, a stakeholder map, and a communications plan. Designed for programs with focused scope and a capable internal team.';
     includes = ['Change Impact Assessment','Stakeholder Mapping','Communications Plan','Manager Briefing Kit','Go-live Readiness Check','Adoption Scorecard'];
-    blo = '43K'; bhi = '64K'; weeks = '8–12 weeks'; fte = '0.5 FTE';
+    blo = '43K'; bhi = '64K'; weeks = '6–10 weeks'; fte = '0.5 FTE'; reinforce = '4–6 weeks';
   } else if (total <= 30) {
     band = 'Medium Complexity'; bandClass = 'medium'; name = 'Packaged Delivery';
     desc = 'This program has moderate-to-significant change complexity. A structured, packaged delivery approach is recommended — covering the full change lifecycle with dedicated Versent resources embedded alongside your team.';
     pkg = 'CM Packaged Delivery';
     pkgDesc = 'End-to-end change management delivered by a dedicated Versent senior change lead. Includes persona-based design, training design, stakeholder engagement, and a structured adoption program.';
     includes = ['Persona-Based Change Design','Full Stakeholder Engagement','Training Needs Analysis','Training Design & Development','Go-live Readiness Assessment','Hypercare Support','Project Story Pack','Change Champion Network'];
-    blo = '129K'; bhi = '215K'; weeks = '12–20 weeks'; fte = '1.0 FTE';
+    blo = '129K'; bhi = '215K'; weeks = '12–20 weeks'; fte = '1.0 FTE'; reinforce = '8–12 weeks';
   } else {
     band = 'High Complexity'; bandClass = 'high'; name = 'Design & Delivery';
     desc = 'This program carries high change complexity. A full Design & Delivery engagement is required — with a Versent change team embedded from strategy through to sustained adoption.';
     pkg = 'CM Design & Delivery';
     pkgDesc = 'Versent\'s most comprehensive change offering — a senior-led team working across strategy, design, delivery, and adoption. Built for enterprise transformation programs where change is the critical path.';
     includes = ['Change Strategy & Program Story','Executive Sponsorship Coaching','Persona-Based Design (full suite)','Multi-modal Training Program','Change Champion Network','Communications Design & Delivery','Readiness & Adoption Measurement','Hypercare + Post-go-live Adoption'];
-    blo = '322K'; bhi = '645K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE';
+    blo = '322K'; bhi = '645K+'; weeks = '20+ weeks'; fte = '1.5–2.0 FTE'; reinforce = '12–24 weeks';
   }
 
   // Animate dial
@@ -419,8 +430,12 @@ function calculate() {
 
   document.getElementById('kpiRow').innerHTML =
     '<div class="kpi-card"><div class="kpi-icon">&#128176;</div><div class="kpi-val">$'+blo+' – $'+bhi+'</div><div class="kpi-lbl">Indicative Investment</div></div>' +
-    '<div class="kpi-card"><div class="kpi-icon">&#128197;</div><div class="kpi-val">'+weeks+'</div><div class="kpi-lbl">Typical Duration</div></div>' +
+    '<div class="kpi-card"><div class="kpi-icon">&#128197;</div><div class="kpi-val">'+weeks+'</div><div class="kpi-lbl">Delivery Duration</div></div>' +
+    '<div class="kpi-card"><div class="kpi-icon">&#127793;</div><div class="kpi-val">'+reinforce+'</div><div class="kpi-lbl">Reinforcement Period</div></div>' +
     '<div class="kpi-card"><div class="kpi-icon">&#128100;</div><div class="kpi-val">'+fte+'</div><div class="kpi-lbl">Change Resource</div></div>';
+
+  document.getElementById('methodNote').innerHTML =
+    '<strong>Methodology:</strong> Duration estimates are based on Prosci\'s ADKAR model — the minimum time typically required to move people through Awareness, Desire, Knowledge, Ability and Reinforcement at this level of disruption. Reinforcement period reflects the post-go-live window needed to sustain behaviour change, not just deliver it.';
 
   document.getElementById('recCard').innerHTML =
     '<div class="rec-header"><div class="rec-header-icon">&#10022;</div><div><div class="rec-header-title">Recommended Approach</div><div class="rec-header-sub">Based on your complexity profile</div></div></div>' +
